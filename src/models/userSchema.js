@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
@@ -20,28 +21,21 @@ const userSchema = new Schema({
         default: null
     },
     privacy: {
-        type: String,
-        enum: ["public", "private"],
-        default: "public"
+        type: Boolean,
+        default: false // Default value for privacy set to false (public)
     },
-    followers:{
-        type: [Schema.Types.ObjectId],
-        ref: "User"
+    otp: {
+        type: Number
     },
-    following: {
-        type: [Schema.Types.ObjectId],
-        ref: "User"
-    },
-    pendingRequest : {
-        type : [Schema.Types.ObjectId],
-        ref: "User"
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 },{
     timestamps: {
         createdAt: "createdAt",
         updatedAt: "updatedAt"
     }
-}
-);
+});
 
 export const User = mongoose.model("User", userSchema);

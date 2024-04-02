@@ -1,7 +1,7 @@
-import { createUser } from "../repo/userSign.repo.js";
+import { compareOTP, createUser } from "../repo/userSign.repo.js";
 import { handleErrors } from "../utils/errorHandler.js";
+import { nodemailerVerifyEmail } from "../utils/nodemailer.js";
 import { validateSignupUser } from "../utils/validation.js";
-import {  verifyEmailAddress } from "../utils/emailVerification.js";
 
 export const userRegister = async (req, res) => {
     try {
@@ -17,20 +17,27 @@ export const userRegister = async (req, res) => {
             return;
         } 
 
-        const isEmailVerified = await verifyEmailAddress(userData.email);
+        const otp = await nodemailerVerifyEmail(userData.email) 
 
-        if (!isEmailVerified.isData) {
-            return res.status(400).send({
-                isData: false,
-                error: isEmailVerified.message
-            });
-        }
+       
 
-        const response = await createUser(userData);
+        const response = await createUser(userData, otp);
         res.status(200).send(response);
         return
 
     } catch (error) {
         return res.status(500).send(handleErrors(error))
     }
+}
+
+export const otpConfirmation = async(req, res) => {
+    try {
+        const emailWithOTP = req.body;
+
+        const response = await compareOTP(emailWithOTP);
+        res.send(response)
+    } catch (error) {
+        return res.status(500).send(handleErrors(error))
+    }
+            
 }

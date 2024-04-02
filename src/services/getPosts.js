@@ -5,8 +5,9 @@ import { handleErrors } from "../utils/errorHandler.js";
 export const getPosts = async (req, res) => {
     try {
         const userId = req.params.userId;
+        const loggedInUserId = req.userId;
         
-        const posts = await getPostsByUserId(userId)
+        const posts = await getPostsByUserId( loggedInUserId, userId)
         if(!posts.isData) return res.status(404).send(posts);
         
         return res.send(posts);

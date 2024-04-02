@@ -3,7 +3,7 @@ import { handleErrors } from "../utils/errorHandler.js";
 import { findUserById } from "../utils/findUser.js";
 
 //create post
-export const createPost = async ( _id, post) => {
+export const uploadPost = async ( _id, post) => {
     try {
 
         await findUserById(_id);

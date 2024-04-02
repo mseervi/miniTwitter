@@ -11,7 +11,7 @@ export const authenticateUser = async(loginDetails) => {
     try {
         const user = await User.findOne({email: loginDetails.email})
 
-        if(!user) return {
+        if(!user || !user.isVerified) return {
             isData: false,
             message: "User Not Found!"
         }
@@ -22,9 +22,9 @@ export const authenticateUser = async(loginDetails) => {
             message: "Incorrect Password"
         }
     
-        const token = jwt.sign({userId: user._id}, config.SECRET_KEY)
+        const token = jwt.sign({userId: user._id, userName: user.userName}, config.SECRET_KEY, {expiresIn: '30d'})
         return {
-            Message: `Login Successful!`,
+            message: `Login Successful!`,
             token : token
         }
     } catch (error) {

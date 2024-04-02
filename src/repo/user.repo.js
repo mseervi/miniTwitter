@@ -4,7 +4,7 @@ import { findUserById } from "../utils/findUser.js";
 
 export const getUserById = async (userId) => {
     try {
-        const user = await findUserById(userId);
+        const user = await findUserById(userId); 
         
         return {
             isData: true,
@@ -14,3 +14,22 @@ export const getUserById = async (userId) => {
         return handleErrors(error);
     }
 };
+
+
+
+//get all users
+export const getAllUsrsFromMiniTwitter = async() => {
+    try {
+        const allUser = await User.find();
+        if(!allUser) return {
+            isData: false,
+            message: "No User Found!"
+        }
+        return {
+            isData: true,
+            data: allUser
+        }
+    } catch (error) {
+        return handleErrors(error)
+    }
+}

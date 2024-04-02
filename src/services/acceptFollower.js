@@ -1,4 +1,4 @@
-import { addUserToFollwers } from "../repo/acceptPendingReq.js";
+import { acceptPendingRequest } from "../repo/acceptPendingReq.js";
 import { handleErrors } from "../utils/errorHandler.js";
 
 
@@ -12,7 +12,7 @@ export const acceptFollowerById = async (req, res) => {
             message: "You can not follow yourself"
         })
     
-        const response = await addUserToFollwers(loggedInUserId, followerId);
+        const response = await acceptPendingRequest(loggedInUserId, followerId);
     
         return res.send(response);
     } catch (error) {

@@ -1,0 +1,51 @@
+A = private     B= public       C = private     D = public
+
+req: 1  A following B
+{   userId: A,    following: B,   follower: ,     pending:        },
+{   userId: B,    following: ,    follower: A,    pending:        }
+
+req: 2  A following C
+{   userId: A,    following: ,    follower: ,     pending:        },
+{   userId: C,    following: ,    follower: ,     pending: A      }
+
+req: 3  A following D
+{   userId: A,    following: D,   follower: ,     pending:        },
+{   userId: D,    following: ,    follower: A,    pending:        }
+
+req: 4  B following A
+{   userId: B,    following: ,    follower: ,     pending:        },
+{   userId: A,    following: ,    follower: ,     pending: B      }
+
+req: 5  B following C
+{   userId: B,    following: ,    follower: ,     pending:        },
+{   userId: C,    following: ,    follower: ,     pending: B      }
+
+req: 6  B following D
+{   userId: B,    following: D,   follower: ,     pending:        },
+{   userId: D,    following: ,    follower: B,    pending:       }
+
+req: 7  C following A
+{   userId: C,    following: ,    follower: ,     pending:         },
+{   userId: A,    following: ,    follower: ,     pending: C       }
+
+req: 8  C following B
+{   userId: C,    following: B,   follower: ,     pending:        },
+{   userId: B,    following: ,    follower: C,    pending:       }
+
+req: 9  C following D
+{   userId: C,    following: D,   follower: ,     pending:        },
+{   userId: D,    following: ,    follower: C,    pending:        }
+
+req: 10  D following A
+{   userId: D,    following: ,    follower: ,     pending:        },
+{   userId: A,    following: ,    follower: ,     pending: D      }
+
+req: 11  D following B
+{   userId: D,    following: B,   follower: ,     pending:        },
+{   userId: B,    following: ,    follower: D,    pending:        }
+
+req: 12  D following C
+{   userId: D,    following: ,    follower: ,     pending:        },
+{   userId: C,    following: ,    follower: ,     pending: D      }
+
+

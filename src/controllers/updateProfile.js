@@ -4,7 +4,7 @@ import { handleErrors } from "../utils/errorHandler.js";
 
 export const updateProfile = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const userId = req.userId;
         const updateData =req.body;
         const profilePhoto = req.file;
 

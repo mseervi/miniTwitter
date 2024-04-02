@@ -5,12 +5,3 @@ export const handleErrors = (error) => {
         error: error.message
     }
 };
-
-
-// export const handleErrors = (err, req, res, next) => {
-//     console.error('Error:', err.message);
-//     res.status(err.statusCode || 500).json({
-//         isData: false,
-//         error: err.message || 'Internal Server Error'
-//     });
-// };

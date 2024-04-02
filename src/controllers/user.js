@@ -1,11 +1,10 @@
 import { getUserById } from "../repo/user.repo.js";
 import { handleErrors } from "../utils/errorHandler.js";
 
-
 export const getUser = async(req, res) => {
     try {
-        const userId = req.params.userId;
-
+        const userId = req.userId  || req.params.userId;
+        
         const user = await getUserById(userId);
 
         return res.send(user)

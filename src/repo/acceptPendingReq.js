@@ -1,39 +1,39 @@
 import { findUserById } from "../utils/findUser.js";
 import { handleErrors } from "../utils/errorHandler.js";
+import { Follower } from "../models/followerSchema.js";
 
-export const addUserToFollwers = async (loggedInUserId, followerId) => {
+export const acceptPendingRequest = async (loggedInUserId, pendingUserId) => {
+    
     try {
         const loggedInUser = await findUserById(loggedInUserId);
-        const follower = await findUserById(followerId);
+        const pendingUser = await findUserById(pendingUserId);
 
-        const indexOfFollower = loggedInUser.pendingRequest.indexOf(followerId);
-
-        if(loggedInUser.pendingRequest.length === 0) return {
+        const isPendingUser = await Follower.findOne({userId: loggedInUserId, pendingFollowRequest: pendingUserId})
+        if(!isPendingUser) return {
             isData: false,
-            message: "No pending Request!"
+            message: "No pending request found from this user!"
         }
-        if (indexOfFollower > -1) {
-            loggedInUser.pendingRequest.splice(indexOfFollower, 1);
-
-            if(!loggedInUser.followers.includes(followerId)){
-                loggedInUser.followers.push(followerId);
-                follower.following.push(loggedInUserId);
-
-                await loggedInUser.save();
-                await follower.save();
-                return {
-                    isData: true,
-                    message: "Follow Request Accepted"
-                };
-            } return {
-                isData: false,
-                message: "Already Request Accepted"
-            }
-
+        //after accept request, pendingUser will be now follower
+        const newFollowerForLoggedInUser = {
+            userId: loggedInUserId,
+            follower: pendingUserId
         }
-        
-        
+        await Follower.create(newFollowerForLoggedInUser);
+        //pendingUser now removed from pending list
+        await Follower.findOneAndDelete({userId: loggedInUserId, pendingFollowRequest: pendingUserId})
+
+        //and pendingUser started following loggedInUser
+        const newFollowingForPendingUser = {
+            userId: pendingUserId,
+            following: loggedInUserId
+        }
+        await Follower.create(newFollowingForPendingUser);
+
+        return {
+            isData: true,
+            message: `You (${loggedInUser.userName}) accepted the follow Request of ${pendingUser.userName}`,
+        };
     } catch (error) {
-        return handleErrors(error);
+        return handleErrors(error)
     }
-};
+}
